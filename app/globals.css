@@ -24,6 +24,11 @@ body {
     overflow-x: hidden;
 }
 
+.nav-active {
+  background-color: #00000050;
+  backdrop-filter: blur(10px);
+}
+
 @utility flex-center {
     @apply flex justify-center items-center;
 }
@@ -65,7 +70,7 @@ body {
     }
 
     nav {
-        @apply fixed z-50 w-full;
+        @apply fixed z-50 w-full transition-all duration-300;
 
         div {
             @apply flex md:flex-row flex-col md:justify-between items-center gap-5 py-5 lg:px-0 px-5 container mx-auto;
@@ -96,11 +101,11 @@ body {
         }
 
         .left-leaf {
-            @apply absolute left-0 md:top-20 xl:top-36 2xl:top-52 md:bottom-auto -bottom-20 md:w-fit w-1/3;
+            @apply absolute h-1/3 left-0 md:top-20 xl:top-36 2xl:top-52 md:bottom-auto -bottom-20 w-1/3 md:w-1/4 lg:w-1/5;
         }
 
         .right-leaf {
-            @apply absolute right-0 md:bottom-0 xl:top-0 2xl:top-12 top-1/2 md:w-fit w-24;
+            @apply absolute h-1/3 right-0 md:bottom-0 xl:top-0 2xl:top-12 top-1/2 w-24 lg:w-1/5;
         }
 
         .body {

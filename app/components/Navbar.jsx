@@ -1,41 +1,37 @@
 "use client";
 import Link from "next/link";
-import React from "react";
 import { navLinks } from "../constants";
 import Image from "next/image";
-import { useGSAP } from "@gsap/react";
-import gsap from "gsap";
+import { useEffect, useRef } from "react";
+import { useWindowScroll } from "react-use";
 
 const Navbar = () => {
-  useGSAP(() => {
-    const navTween = gsap.timeline({
-      scrollTrigger: {
-        trigger: "nav",
-        start: "bottom top",
-      },
-    });
+  const navRef = useRef(null);
+  const {y: currentScrollY} = useWindowScroll()
 
-    navTween.fromTo('nav', {background: 'transparent'}, {
-        backgroundColor: "#00000050",
-        backgroundFilter: "blur(10px)",
-        duration: 1,
-        ease: 'power1.inOut'
-    })
-  }, []);
+  useEffect(()=>{
+    if (currentScrollY == 0)
+      navRef.current.classList.remove("nav-active")
+    else if(currentScrollY >= 50)
+      navRef.current.classList.add("nav-active")
+  }, [currentScrollY])
+
   return (
-    <nav>
-      <div>
+    <nav ref={navRef}>
+      <div className="flex justify-between items-center px-6 py-4">
         <Link href="#" className="flex items-center gap-2">
           <div className="relative size-10">
             <Image src="/images/logo.png" alt="Vector Mojo" fill />
           </div>
-          <p>Vector Mojo</p>
+          <p className="font-semibold">Vector Mojo</p>
         </Link>
 
-        <ul>
+        <ul className="flex gap-6">
           {navLinks.map((link) => (
             <li key={link.id}>
-              <Link href={`#${link.id}`}>{link.title}</Link>
+              <Link href={`#${link.id}`} className="hover:text-gray-300">
+                {link.title}
+              </Link>
             </li>
           ))}
         </ul>
