@@ -90,7 +90,7 @@ const Hero = () => {
           start: startValue,
           end: endValue,
           scrub: true, // Smoother scrubbing
-          // markers: true,
+          markers: true,
           pin: true,
           onUpdate: (self) => {
             // Update video time based on scroll progress
@@ -151,16 +151,16 @@ const Hero = () => {
           </div>
         </div>
       </section>
-      <div ref={videoContainerRef}  className="video w-full h-full md:h-[80%] bottom-0 left-0 md:object-contain object-bottom object-cover absolute inset-0">
+      {/* <div ref={videoContainerRef}  className="w-screen h-screen md:h-[60%] top-0 left-0 absolute flex items-center justify-center"  >
         <video
-          className=""
+          className="fixed bottom-0"
           ref={videoRef}
           muted
           playsInline
           preload="auto"
           src="/videos/output.mp4"
         />
-      </div>
+      </div> */}
      </>
   );
 };
