@@ -5,11 +5,17 @@ import { SplitText } from "gsap/all";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import Link from "next/link";
-import React from "react";
+import React, { useRef } from "react";
+import { useMediaQuery } from "react-responsive";
 
-gsap.registerPlugin(ScrollTrigger) 
+gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
+  const videoRef = useRef();
+  const videoContainerRef = useRef()
+
+  const isMobile = useMediaQuery({ maxWidth: 767 });
+
   useGSAP(() => {
     const heroSplit = new SplitText(".title", { type: "chars, words" });
     const paragraphSplit = new SplitText(".subtitle", { type: "lines" });
@@ -32,6 +38,14 @@ const Hero = () => {
       delay: 1,
     });
 
+    gsap.from(videoRef.current, {
+      opacity: 0,
+      yPercent: 150,
+      duration: 1.5,
+      ease: "expo.out",
+      delay: 1.2
+    })
+
     gsap
       .timeline({
         scrollTrigger: {
@@ -42,9 +56,71 @@ const Hero = () => {
           // markers: true
         },
       })
-      .to(".right-leaf", { y: 200 }, 0)
+      .to(".right-leaf", { y: 300 }, 0)
       .to(".left-leaf", { y: -200 }, 0);
-  }, []);
+
+    // const startValue = isMobile ? "top 50%" : "center 60%";
+    // const endValue = isMobile ? "120% top" : "bottom top";
+
+    // const tl = gsap.timeline({
+    //   scrollTrigger: {
+    //     trigger: "video",
+    //     start: startValue,
+    //     end: endValue,
+    //     scrub: true,
+    //     pin: true,
+    //     markers: true,
+    //   },
+    // });
+
+    // videoRef.current.onloadedmetadata = () => {
+    //   tl.to(videoRef.current, {currentTime: videoRef.current.duration})
+    // };
+
+    const setupVideoAnimation = () => {
+      const video = videoRef.current;
+      if (!video) return;
+
+      const startValue = isMobile ? "top top" : "center 60%";
+      const endValue = isMobile ? "120% top" : "bottom top";
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: videoContainerRef.current, // Target the container
+          start: startValue,
+          end: endValue,
+          scrub: true, // Smoother scrubbing
+          // markers: true,
+          pin: true,
+          onUpdate: (self) => {
+            // Update video time based on scroll progress
+            if (video.duration) {
+              video.currentTime = video.duration * self.progress;
+            }
+          }
+        },
+      });
+
+      return tl;
+    };
+
+    // Wait for video metadata to load before setting up animation
+    const video = videoRef.current;
+    if (video) {
+      if (video.readyState >= 1) {
+        // Metadata already loaded
+        setupVideoAnimation();
+      } else {
+        // Wait for metadata to load
+        video.addEventListener('loadedmetadata', setupVideoAnimation, { once: true });
+      }
+    }
+
+    // Cleanup
+    return () => {
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
+  }, [isMobile]);
   return (
     <>
       <section id="hero" className="noisy">
@@ -75,8 +151,17 @@ const Hero = () => {
           </div>
         </div>
       </section>
-      <div className="h-[100dvh]"></div>
-    </>
+      <div ref={videoContainerRef}  className="video w-full h-full md:h-[80%] bottom-0 left-0 md:object-contain object-bottom object-cover absolute inset-0">
+        <video
+          className=""
+          ref={videoRef}
+          muted
+          playsInline
+          preload="auto"
+          src="/videos/output.mp4"
+        />
+      </div>
+     </>
   );
 };
 
