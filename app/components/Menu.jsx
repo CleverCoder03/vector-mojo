@@ -47,12 +47,12 @@ const Menu = () => {
   }, [currentIndex]);
   return (
     <section id="menu" aria-labelledby="menu-heading">
-      {/* <div id="m-left-leaf" className="size-40 md:size-60">
+      <div id="m-left-leaf" className="size-40 md:size-60">
         <Image src="/images/slider-left-leaf.png" alt="left-leaf" fill />
       </div>
       <div id="m-right-leaf" className="size-40 md:size-60">
         <Image src="/images/slider-right-leaf.png" alt="right-leaf" fill />
-      </div> */}
+      </div>
 
       <h2 id="menu-heading" className="sr-only">
         Cocktail Menu
