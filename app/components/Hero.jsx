@@ -59,29 +59,11 @@ const Hero = () => {
       .to(".right-leaf", { y: 300 }, 0)
       .to(".left-leaf", { y: -200 }, 0);
 
-    // const startValue = isMobile ? "top 50%" : "center 60%";
-    // const endValue = isMobile ? "120% top" : "bottom top";
-
-    // const tl = gsap.timeline({
-    //   scrollTrigger: {
-    //     trigger: "video",
-    //     start: startValue,
-    //     end: endValue,
-    //     scrub: true,
-    //     pin: true,
-    //     markers: true,
-    //   },
-    // });
-
-    // videoRef.current.onloadedmetadata = () => {
-    //   tl.to(videoRef.current, {currentTime: videoRef.current.duration})
-    // };
-
     const setupVideoAnimation = () => {
       const video = videoRef.current;
       if (!video) return;
 
-      const startValue = isMobile ? "top top" : "center 60%";
+      const startValue = isMobile ? "top top" : "center 50%";
       const endValue = isMobile ? "120% top" : "bottom top";
 
       const tl = gsap.timeline({
@@ -90,7 +72,6 @@ const Hero = () => {
           start: startValue,
           end: endValue,
           scrub: true, // Smoother scrubbing
-          markers: true,
           pin: true,
           onUpdate: (self) => {
             // Update video time based on scroll progress
@@ -151,7 +132,7 @@ const Hero = () => {
           </div>
         </div>
       </section>
-      {/* <div ref={videoContainerRef}  className="w-screen h-screen md:h-[60%] top-0 left-0 absolute flex items-center justify-center"  >
+      <div ref={videoContainerRef}  className="absolute w-screen h-screen top-0 left-0 flex items-center justify-end"  >
         <video
           className="fixed bottom-0"
           ref={videoRef}
@@ -160,7 +141,7 @@ const Hero = () => {
           preload="auto"
           src="/videos/output.mp4"
         />
-      </div> */}
+      </div>
      </>
   );
 };

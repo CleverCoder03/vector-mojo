@@ -118,20 +118,20 @@ const openingHours = [
 
 const socials = [
  {
+	name: "Github",
+	icon: "/images/github.png",
+	url: "https://github.com/CleverCoder03",
+ },
+ {
+	name: "Linkedin",
+	icon: "/images/linkedin.png",
+	url: "https://www.linkedin.com/in/clever-coder/",
+ },
+  {
 	name: "Instagram",
 	icon: "/images/insta.png",
-	url: "#",
- },
- {
-	name: "X (Twitter)",
-	icon: "/images/x.png",
-	url: "#",
- },
- {
-	name: "Facebook",
-	icon: "/images/fb.png",
-	url: "#",
- },
+	url: "https://www.instagram.com/clevercoder_/",
+ }
 ];
 
 const sliderLists = [

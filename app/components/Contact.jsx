@@ -57,8 +57,8 @@ const Contact = () => {
 
                 <div className="flex-center gap-5">
                     {socials.map((social)=>(
-                        <Link key={social.name} href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.name}>
-                            <div className="relative size-5">
+                        <Link key={social.name} href={social.url} target="_blank" rel="noopener noreferrer" aria-label={social.name} className="flex items-center">
+                            <div className="relative size-6">
                                 <Image src={social.icon} alt={social.name} fill/>
                             </div>
                         </Link>
