@@ -12,21 +12,41 @@ gsap.registerPlugin(ScrollTrigger);
 
 const Hero = () => {
   const videoRef = useRef();
-  const videoContainerRef = useRef()
+  const videoContainerRef = useRef();
 
   const isMobile = useMediaQuery({ maxWidth: 767 });
 
   useGSAP(() => {
     const heroSplit = new SplitText(".title", { type: "chars, words" });
     const paragraphSplit = new SplitText(".subtitle", { type: "lines" });
+    const loadTextSplit = new SplitText("#loadText", { type: "chars, words" });
 
     heroSplit.chars.forEach((char) => char.classList.add("text-gradient"));
+
+    gsap.to("#loader", {
+      yPercent: -100,
+      ease: "expo.inOut",
+      duration: 1,
+      delay: 1,
+    });
+
+    gsap.from(
+      loadTextSplit.chars,
+      {
+        opacity: 0,
+        yPercent: 100,
+        duration: 1.8,
+        ease: "expo.out",
+        stagger: 0.06,
+      }
+    );
 
     gsap.from(heroSplit.chars, {
       yPercent: 100,
       duration: 1.8,
       ease: "expo.out",
       stagger: 0.06,
+      delay: 1.5,
     });
 
     gsap.from(paragraphSplit.lines, {
@@ -35,7 +55,7 @@ const Hero = () => {
       duration: 1.8,
       stagger: 0.06,
       ease: "expo.out",
-      delay: 1,
+      delay: 2,
     });
 
     gsap.from(videoRef.current, {
@@ -43,8 +63,8 @@ const Hero = () => {
       yPercent: 150,
       duration: 1.5,
       ease: "expo.out",
-      delay: 1.2
-    })
+      delay: 2.2,
+    });
 
     gsap
       .timeline({
@@ -78,7 +98,7 @@ const Hero = () => {
             if (video.duration) {
               video.currentTime = video.duration * self.progress;
             }
-          }
+          },
         },
       });
 
@@ -93,17 +113,30 @@ const Hero = () => {
         setupVideoAnimation();
       } else {
         // Wait for metadata to load
-        video.addEventListener('loadedmetadata', setupVideoAnimation, { once: true });
+        video.addEventListener("loadedmetadata", setupVideoAnimation, {
+          once: true,
+        });
       }
     }
 
     // Cleanup
     return () => {
-      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
   }, [isMobile]);
   return (
     <>
+      {/* LOADING */}
+      <div
+        id="loader"
+        className="fixed h-screen w-screen bg-black z-50 overflow-hidden"
+      >
+        <div className="relative size-full flex justify-center items-center">
+          <h1 id="loadText" className="text-2xl">
+            Hello Visitor !!
+          </h1>
+        </div>
+      </div>
       <section id="hero" className="noisy">
         <h1 className="title uppercase">S'Mojo</h1>
         <div className="left-leaf">
@@ -132,7 +165,10 @@ const Hero = () => {
           </div>
         </div>
       </section>
-      <div ref={videoContainerRef}  className="absolute w-screen h-screen top-0 left-0 flex items-center justify-end"  >
+      <div
+        ref={videoContainerRef}
+        className="absolute w-screen h-screen top-0 left-0 flex items-center justify-end"
+      >
         <video
           className="fixed bottom-0"
           ref={videoRef}
@@ -142,7 +178,7 @@ const Hero = () => {
           src="/videos/output.mp4"
         />
       </div>
-     </>
+    </>
   );
 };
 
